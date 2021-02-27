@@ -31,7 +31,7 @@ export default class WelcomeScreen extends React.Component {
   }
   signUp=(username, password, confirmPassword)=>{
     if(password !== confirmPassword){
-      return Alert.alert("Your passwords don't match!");
+      return Alert.alert("Your passwords don't match!\nCheck your password.");
     } else {
       firebase.auth().createUserWithEmailAndPassword(username, password)
         .then(()=>{
@@ -57,7 +57,7 @@ export default class WelcomeScreen extends React.Component {
   login=(username, password)=>{
     firebase.auth().signInWithEmailAndPassword(username, password)
       .then(()=>{
-        this.props.navigation.navigate('SeeRequests');
+        this.props.navigation.navigate('RoutineList');
       }) .catch(error =>{
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -75,6 +75,74 @@ export default class WelcomeScreen extends React.Component {
         <View style={styles.modalContainer}>
           <KeyboardAvoidingView style={{flex:1, backgroundColor: '#fff'}}>
             <Text style={styles.signUpText}>Registration</Text>
+            <TextInput
+              style={styles.formTextInput}
+              placeholder={'Email'}
+              keyboardType='email-address'
+              onChangeText={text=>{
+                this.setState({
+                  username: text
+                })
+              }}
+              />
+            <TextInput
+              style={styles.formTextInput}
+              placeholder={'First Name'}
+              maxLength={18}
+              onChangeText={text=>{
+                this.setState({
+                  firstName: text
+                })
+              }}/>
+              <TextInput
+                style={styles.formTextInput}
+                placeholder={'Last Name'}
+                maxLength={18}
+                onChangeText={text=>{
+                  this.setState({
+                    lastName: text
+                  })
+                }}/>
+              <TextInput
+                style={styles.formTextInput}
+                placeholder={'Password'}
+                secureTextEntry={true}
+                onChangeText={text=>{
+                  this.setState({
+                    password: text
+                  })
+                }}/>
+              <TextInput
+              style={styles.formTextInput}
+              placeholder={'Confirm Password'}
+              secureTextEntry={true}
+              onChangeText={text=>{
+                this.setState({
+                  confirmPassword: text
+                })
+              }}/>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={styles.registerButton}
+                  onPress={()=>{
+                    this.signUp(
+                      this.state.username,
+                      this.state.password,
+                      this.state.confirmPassword
+                    )
+                  }}>
+                  <Text>Register</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.cancelButton}
+                  onPress={()=>{
+                    this.setState({
+                      isModalVisible: false,
+                    })
+                  }}>
+                  <Text>Cancel</Text>
+                </TouchableOpacity>
+              </View>
           </KeyboardAvoidingView>
         </View>
       </Modal>
@@ -84,10 +152,10 @@ export default class WelcomeScreen extends React.Component {
   render(){
     return(
       <View style={styles.container}>
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>{this.showModal}</View>
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>{this.showModal()}</View>
         <View style={styles.profileContainer}>
           <Text style={styles.title}>Fitness for You</Text>
-          <Image source={require('../assets/jumping.gif')} 
+          <Image source={require('../assets/running.gif')} 
           style={styles.imageView}/>
         </View>
         <View style={styles.login}>
@@ -104,6 +172,7 @@ export default class WelcomeScreen extends React.Component {
             <TextInput
               style={styles.loginBox}
               placeholder='enter password'
+              secureTextEntry={true}
               onChangeText={(text)=>{
                 this.setState({
                   password: text
@@ -111,11 +180,11 @@ export default class WelcomeScreen extends React.Component {
               }}
             />
         </View>
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
           <TouchableOpacity 
             style={styles.button}
             onPress={()=>{
-              this.login();
+              this.login(this.state.username, this.state.password);
             }}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
@@ -140,13 +209,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#81e7e5ff',
   },
   profileContainer:{
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   imageView:{
-    height: '10%',
-    width: '50%',
+    width: 100,
+    height: 100,
     flex: 0.85,
     justifyContent: "center",
     alignItems: "center",
@@ -195,6 +263,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: RFValue(20)
   },
+  formTextInput:{
+    width: 200,
+    height: 37,
+    alignSelf: 'center',
+    borderColor: '#30a09e',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginTop: 10,
+    padding: 10,
+  },
   modalContainer:{
     flex:1,
     borderRadius:20,
@@ -209,6 +287,27 @@ const styles = StyleSheet.create({
   signUpText:{
     fontSize: RFValue(20),
     fontWeight: 'bold',
-    color: '#0E4B4A'
+    color: '#0E4B4A',
+    padding: 15,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  registerButton: {
+    width: 200,
+    height: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderRadius: 10,
+    marginTop: 50
+  },
+  cancelButton:{
+    width: 200,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderRadius: 10,
+    marginTop: 5
   },
 })
