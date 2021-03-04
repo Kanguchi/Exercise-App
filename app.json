@@ -4,7 +4,7 @@
     "slug": "ExerciseApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/running.gif",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -17,7 +17,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kanok.ExerciseAll",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
