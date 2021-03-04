@@ -81,7 +81,7 @@ export default class CustomSideBarMenu extends React.Component {
             flex: 0.3,
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "#00D5BF",
+            backgroundColor: "#A7DBDA",
             paddingTop: 50
           }}
         >

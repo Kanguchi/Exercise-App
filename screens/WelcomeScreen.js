@@ -158,46 +158,48 @@ export default class WelcomeScreen extends React.Component {
           <Image source={require('../assets/running.gif')} 
           style={styles.imageView}/>
         </View>
-        <View style={styles.login}>
-          <TextInput
-            style={styles.loginBox}
-            placeholder='username'
-            keyboardType='email-address'
-            onChangeText={(text)=>{
-              this.setState({
-                username: text
-              })
-            }}
-            />
+        <KeyboardAvoidingView>
+          <View style={styles.login}>
             <TextInput
               style={styles.loginBox}
-              placeholder='enter password'
-              secureTextEntry={true}
+              placeholder='username'
+              keyboardType='email-address'
               onChangeText={(text)=>{
                 this.setState({
-                  password: text
+                  username: text
                 })
               }}
-            />
-        </View>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <TouchableOpacity 
-            style={styles.button}
-            onPress={()=>{
-              this.login(this.state.username, this.state.password);
-            }}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={()=>{
-              this.setState({
-                isModalVisible: true
-              })
-            }}>
-            <Text style={styles.buttonText}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
+              />
+              <TextInput
+                style={styles.loginBox}
+                placeholder='enter password'
+                secureTextEntry={true}
+                onChangeText={(text)=>{
+                  this.setState({
+                    password: text
+                  })
+                }}
+              />
+          </View>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <TouchableOpacity 
+              style={styles.button}
+              onPress={()=>{
+                this.login(this.state.username, this.state.password);
+              }}>
+              <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={()=>{
+                this.setState({
+                  isModalVisible: true
+                })
+              }}>
+              <Text style={styles.buttonText}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
       </View>
     )
   }
@@ -213,29 +215,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageView:{
-    width: 100,
-    height: 100,
+    width: 250,
+    height: 80,
     flex: 0.85,
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: RFValue(250)
+    paddingTop: RFValue(250),
+    marginBottom: RFValue(60),
   },
   title:{
-    paddingTop: RFValue(30),
+    paddingTop: RFValue(50),
     fontSize:RFValue(50),
-    fontWeight:'500',
+    fontWeight:'200',
     //fontFamily:'AvenirNext-Heavy',
     color : '#0E4B4A'
   },
   login:{
     flex: 0.5,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: RFValue(80),
   },
   loginBox:{
     width: "80%",
     height: RFValue(50),
-    borderBottomWidth: 1.5,
+    borderBottomWidth: 1,
     borderColor: "#fff",
     marginBottom: 15,
     fontSize: RFValue(20),
