@@ -37,29 +37,18 @@ export default class CreateScreen extends React.Component{
     }
 
     addRequest = async (title,goal, space, tools, time)=>{
-        var userId = this.state.userId
+        var userID = this.state.userId
         var randomRequestId = this.createUniqueId();
         db.collection('routine_requests').add({
-            "user_id": userId,
+            "user_id": userID,
             "request_title":title,
-            "exercise_goal":reasonToRequest,
+            "exercise_goal":goal,
+            "space_available": space,
+            "exercise_tools": tools,
+            "routine_length": time,
             "request_id"  : randomRequestId,
-            "book_status" : "requested",
-             "date"       : firebase.firestore.FieldValue.serverTimestamp(),
-             "image_link" : books.data[0].volumeInfo.imageLinks.smallThumbnail
-    
+            "date"       : firebase.firestore.FieldValue.serverTimestamp(),
         })
-    
-        await this.getBookRequest()
-        db.collection('users').where("email_id","==",userId).get()
-        .then()
-        .then((snapshot)=>{
-          snapshot.forEach((doc)=>{
-            db.collection('users').doc(doc.id).update({
-          IsBookRequestActive: true
-          })
-        })
-      })
     
         this.setState({
             bookName :'',
@@ -67,8 +56,7 @@ export default class CreateScreen extends React.Component{
             requestId: randomRequestId
         })
     
-        return Alert.alert("Book Requested Successfully")
-    
+        return Alert.alert("Routine Requested Successfully")
     
       }
 
@@ -123,9 +111,9 @@ export default class CreateScreen extends React.Component{
                             value={this.state.timeFrame}/>
                         <TouchableOpacity
                             style={styles.submitButton}
-                            // onPress={()=>{
-                            //     this.addRequest(this.state.title, this.state.goal)
-                            // }}
+                            onPress={()=>{
+                                this.addRequest(this.state.requestTitle, this.state.goal, this.state.spaceAvailable, this.state.toolsAvailable, this.state.timeFrame);
+                            }}
                             >
                             <Text style={{color: '#fff'}}>Request</Text>
                         </TouchableOpacity>
